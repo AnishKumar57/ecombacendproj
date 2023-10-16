@@ -5,15 +5,17 @@ app.get('/',(req, res)=> {
 })
 */
 
-const getCategories = (req, res) => {
+// import service function from service folder
+const { getAllCategories } = require("../services/category.service");
+
+const getCategories = async (req, res) => {
+  const allCategories = await getAllCategories();
+
   return res.json({
     message: "Successfully fetched the JSON data",
     success: "true",
     code: 200,
-    data: {
-      name: "electronics",
-      data: "data for electornics",
-    },
+    data: allCategories,
   });
 };
 
