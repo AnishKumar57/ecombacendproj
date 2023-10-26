@@ -8,12 +8,14 @@ const { PORT } = require("./config/serverConfig");
 
 // Require the routers
 const categoryRoutes = require("./routes/category.routes");
+const productRoutes = require("./routes/products.routes")
 
 // app.use is using the provided middleware for every incoming request by the server.
 // we need to add body-parser middleware that will help express to read all the query and body params
 app.use(bodyParser.urlencoded({ extended: true }));
 
 categoryRoutes(app);
+productRoutes(app);
 // Since categoryRoutes is a function so we an pass app to categoryRoutes
 
 app.get("/", (req, res) => {
