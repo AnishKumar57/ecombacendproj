@@ -12,7 +12,45 @@ const getAllProductsWithCategories = async ()=> {
     return data;
 }
 
+const createProduct = async (data)=>{
+    const product = await Product.create({
+        name: data.name,
+        description: data.description,
+        cost: data.cost,
+        categoryId : data.categoryId
+    })
+    return product;
+}
+
+const updateProduct = async (productId, data)=>{
+    const response = await Product.update({
+        name: data.name,
+        description: data.description,
+        cost: data.cost,
+        categoryId : data.categoryId
+    },
+    {
+        where: {
+            id: productId
+        }
+    })
+    return response;
+}
+
+const deleteProduct = async (name, categoryId)=>{
+    const response = await Product.destroy({
+        where: {
+            name: name,
+            categoryId: categoryId
+        }
+    });
+    return response
+}
+
 module.exports={
     getAllProducts,
-    getAllProductsWithCategories
+    getAllProductsWithCategories,
+    createProduct,
+    updateProduct,
+    deleteProduct
 }
