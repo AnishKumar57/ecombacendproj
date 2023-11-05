@@ -5,6 +5,7 @@
 
 // require controller
 const CategoryController = require("../controllers/category.controllers");
+const CategoryMiddleware  = require("../middlewares/category.validators");
 
 
 const routes = (app) => {
@@ -14,9 +15,7 @@ const routes = (app) => {
   app.get("/ecomm/api/v1/categories", CategoryController.getCategories);
 
   // to create a category : sending data through req.body
-  app.post("/ecomm/api/v1/categories", CategoryController.createCategory);
-
-
+  app.post("/ecomm/api/v1/categories", CategoryMiddleware.validateCreate, CategoryController.createCategory);
 
 // to get all the categories by category id: using URL params
 app.get("/ecomm/api/v1/categories/:id", CategoryController.getCatgoriesById);
@@ -28,10 +27,10 @@ app.get("/ecomm/api/v1/categoriesByName", CategoryController.getCatgoriesByName)
 app.put("/ecomm/api/v1/updateCategory/:id", CategoryController.updateCategory);
 
 // to delete a category by Id
-app.delete("/ecomm/api/v1/deleteCategoryById/:id", CategoryController.deleteCategoryById);
+app.delete("/ecomm/api/v1/deleteCategoryById/:id",CategoryController.deleteCategoryById);
 
 // to delete a a category by name 
-app.delete("/ecomm/api/v1/deleteCategoryByName/:name", CategoryController.deleteCategoryByName);
+app.delete("/ecomm/api/v1/deleteCategoryByName/:name",CategoryController.deleteCategoryByName);
 };
 
 module.exports = routes;
