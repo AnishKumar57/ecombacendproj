@@ -1,6 +1,6 @@
 const { response } = require("express");
 const AuthService = require("../services/auth.service");
-require("dotenv").config();
+var jwt = require("jsonwebtoken");
 
 const signup = async (req, res) => {
   const response = await AuthService.signup(req.body);
@@ -32,15 +32,25 @@ const signin = async (req, res) => {
     );
 
     console.log(passwordVarified);
-    if(passwordVarified) {
+    if (passwordVarified) {
+      const token = jwt.sign(
+        {
+          email: userData.email,
+          password: userData.password,
+          username: userData.userName,
+          
+        },
+        process.env.JWT_SECRET_KEY
+      );
+
       // if password matched
       return res.json({
         message: "Signed in successfully",
         success: true,
-        data: userData,
+        token: token,
         code: 200,
       });
-    }else{
+    } else {
       // if password not matched
       return res.json({
         message: "Incorrect Password! Please try again",

@@ -1,6 +1,7 @@
 const { User } = require("../models/index");
 const bcrypt = require("bcryptjs");
-var jwt = require('jsonwebtoken');
+var jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 const signup = async (data) => {
   const response = await User.create({
@@ -20,12 +21,20 @@ const getUserByEmail = async (data) => {
   return response;
 };
 
-const verifyPassword = async (password, hashedPassword) => {
-  return bcrypt.compare(password, hashedPassword);
-}
+// Becrypt hash comparision with password
+const verifyPassword = (userpassword, hashedPassword) => {
+  return bcrypt.compare(userpassword, hashedPassword);
+};
+
+// JWT token varification
+const verifyToken = (token) => {
+  const response = jwt.verify(token, process.env.JWT_SECRET_KEY);
+  return response;
+};
 
 module.exports = {
   signup,
   getUserByEmail,
   verifyPassword,
+  verifyToken,
 };
